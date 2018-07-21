@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ArrivalRequest {
+public class Departure {
     private Long id;
     private Long timestamp;
     private Aircraft aircraft;
