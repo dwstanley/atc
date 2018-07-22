@@ -1,29 +1,29 @@
 package github.dwstanley.atc.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Aircraft {
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @NonNull
     private String name;
 
+    @NonNull
     @Enumerated(EnumType.STRING)
     private AcType type;
 
+    @NonNull
     @Enumerated(EnumType.STRING)
     private AcSize size;
 //    private String lastKnownLocation;
 }
+

@@ -1,5 +1,7 @@
-**/target
 **/.idea
+**/node_modules
+**/target
+**/src/main/resources/static/built
 *.iws
 *.iml
 *.ipr
