@@ -1,6 +1,5 @@
 package github.dwstanley.atc.controller;
 
-import github.dwstanley.atc.exception.AircraftNotFoundException;
 import github.dwstanley.atc.exception.ArrivalNotFoundException;
 import github.dwstanley.atc.exception.DepartureNotFoundException;
 import github.dwstanley.atc.model.Aircraft;
