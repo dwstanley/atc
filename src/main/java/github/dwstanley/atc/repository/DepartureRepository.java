@@ -2,21 +2,19 @@ package github.dwstanley.atc.repository;
 
 import github.dwstanley.atc.model.Aircraft;
 import github.dwstanley.atc.model.Arrival;
+import github.dwstanley.atc.model.Departure;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.config.Projection;
 
 
+@RepositoryRestResource(excerptProjection = DepartureRepository.DepartureProjection.class)
+public interface DepartureRepository extends JpaRepository<Departure, Long> {
 
-@RepositoryRestResource(excerptProjection = ArrivalRepository.ArrivalProjection.class)
-public interface ArrivalRepository extends JpaRepository<Arrival, Long> {
-
-    @Projection(name = "inlineAircraft", types = { Arrival.class })
-    interface ArrivalProjection {
+    @Projection(name = "inlineAircraft", types = { Departure.class })
+    interface DepartureProjection {
         Long getTimestamp();
         Aircraft getAircraft();
     }
-
-    Arrival findByAircraftVin(String vin);
 
 }
