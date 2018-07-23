@@ -7,16 +7,6 @@ import ArrivalTable from './arrival'
 
 class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.onDepartureTableChange = this.onDepartureTableChange.bind(this);
-    }
-
-    onDepartureTableChange() {
-        console.log('onDepartureTableChanged invoked')
-        location.reload();
-    }
-
     render() {
         return (
             <div>
@@ -25,7 +15,7 @@ class App extends React.Component {
                 <h2>Arrivals</h2>
                 <ArrivalTable/>
                 <h2>Departures</h2>
-                <DepartureTable onTableChange={this.onDepartureTableChange}/>
+                <DepartureTable/>
             </div>
         )
     }
