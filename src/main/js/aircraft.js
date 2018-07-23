@@ -276,6 +276,13 @@ class CreateDialog extends React.Component {
                                     <option value="LARGE">LARGE</option>
                                 </select>
                             </p>
+                            <p>
+                                <select ref="status" className="dropdown">
+                                    <option selected disabled>choose status</option>
+                                    <option value="UNKNOWN">UNKNOWN</option>
+                                    <option value="LANDED">LANDED</option>
+                                </select>
+                            </p>
                             <button onClick={this.handleSubmit}>Create</button>
                         </form>
                     </div>

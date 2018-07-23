@@ -7,7 +7,10 @@ A software subsystem of an air-traffic control system defined to manage a queue 
 
 The chosen architecture follows common web service design principles and makes use of **spring-data**, **spring-rest**, and project **lombok**.
 
-The front end was written in React and is designed to demonstrate the functionality of REST service but due to time constraints is far from a production ready UI.
+The front end was written in React and is designed to demonstrate the functionality of REST service but due to time constraints is far from a production ready UI. 
+Please note that while the UI is functional, user feedback is lacking so illegal requests my be consumed and not presented to the user. If the application is behaving unexpected I suggest running with dev tools open to view the error. 
+
+Also note that when adding planes for arrival and departure their current state is considered. The system will ignore your request if you attempt to land a grounded plane, or similarly depart one that is already schedule for arrival. The demo is preloaded with an aircraft of each type that has a **null** status which can be added to either the arrival or departure queue.
 
 ### Build
 
@@ -42,6 +45,8 @@ $ mvn clean spring-boot:run
 ```
 
 Once running a demo application can be found: <http://localhost:8080>
+
+
 
 If you would like to test the API directly it is exposed at <http://localhost:8080/atc/>.
 
