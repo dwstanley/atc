@@ -5,7 +5,10 @@ import github.dwstanley.atc.model.Arrival;
 import github.dwstanley.atc.model.Departure;
 import github.dwstanley.atc.service.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -23,16 +26,9 @@ public class AtcController {
     @GetMapping(value = "/completeArrival")
     Aircraft completeArrival(@RequestParam("aircraftVin") String aircraftVin) {
         return this.airportService
-                .completeArrival(aircraftVin)
+                .arrive(aircraftVin)
                 .orElseThrow(() -> new RuntimeException("Could not complete requested arrival."));
     }
-
-//    @PostMapping(value = "/completeArrival")
-//    Aircraft completeArrival(@RequestBody Arrival arrival) {
-//        return this.airportService
-//                .completeArrival(arrival.getAircraft().getVin())
-//                .orElseThrow(() -> new RuntimeException("Could not complete requested arrival."));
-//    }
 
     @GetMapping(value = "/requestArrival")
     Arrival requestArrival(@RequestParam("aircraftVin") String aircraftVin) {

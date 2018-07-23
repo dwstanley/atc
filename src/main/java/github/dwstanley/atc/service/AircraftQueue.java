@@ -14,7 +14,6 @@ public class AircraftQueue<T> implements Comparator<T> {
 
     private final int TIMEOUT_IN_SECS = 5;
 
-    // TODO - verify there is no limit to the size of this data structure
     private final PriorityBlockingQueue<T> queue = new PriorityBlockingQueue<>(100, this);
 
     private final Function<T, Long> getTimestamp;

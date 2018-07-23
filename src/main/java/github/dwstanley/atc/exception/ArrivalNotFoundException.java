@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class ArrivalNotFoundException extends RuntimeException {
-    public ArrivalNotFoundException(Long arrivalId) {
-        super("could not find user '" + arrivalId + "'.");
+    public ArrivalNotFoundException(String aircraftVin) {
+        super("could not find arrival for aircraft vin: '" + aircraftVin + "'.");
     }
 }

@@ -6,14 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.config.Projection;
 
-
-
 @RepositoryRestResource(excerptProjection = ArrivalRepository.ArrivalProjection.class)
 public interface ArrivalRepository extends JpaRepository<Arrival, Long> {
 
-    @Projection(name = "inlineAircraft", types = { Arrival.class })
+    @Projection(name = "inlineAircraft", types = {Arrival.class})
     interface ArrivalProjection {
         Long getTimestamp();
+
         Aircraft getAircraft();
     }
 

@@ -17,17 +17,7 @@ public interface AirportService {
 
     List<Departure> pendingDepartures();
 
-    Optional<Arrival> nextArrival();
-
-    Departure nextDeparture();
-
-//    List<Aircraft> listOnGroundAircraft();
-
-    int numOnGroundAircraft();
-
-    int numInAirAircraft();
-
-    Optional<Aircraft> completeArrival(String aircraftVin);
+    Optional<Aircraft> arrive(String aircraftVin);
 
     Optional<Aircraft> departNext();
 

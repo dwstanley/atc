@@ -21,7 +21,8 @@ public class Aircraft {
     @NonNull
     private String name;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private AcStatus status;
 
     @NonNull
     @Enumerated(EnumType.STRING)
