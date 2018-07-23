@@ -15,7 +15,14 @@ public class Aircraft {
     private Long id;
 
     @NonNull
+    @Column(unique=true)
+    private String vin;
+
+    @NonNull
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private AcStatus status;
 
     @NonNull
     @Enumerated(EnumType.STRING)
@@ -24,6 +31,6 @@ public class Aircraft {
     @NonNull
     @Enumerated(EnumType.STRING)
     private AcSize size;
-//    private String lastKnownLocation;
+
 }
 

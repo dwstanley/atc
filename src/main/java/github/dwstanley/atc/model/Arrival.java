@@ -1,9 +1,6 @@
 package github.dwstanley.atc.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class Arrival {
 
     @Id
@@ -25,5 +19,10 @@ public class Arrival {
 
     @ManyToOne
     private Aircraft aircraft;
+
+    public Arrival(Aircraft aircraft) {
+        this.aircraft = aircraft;
+        this.timestamp = System.currentTimeMillis();
+    }
 
 }

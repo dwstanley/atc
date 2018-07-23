@@ -1,6 +1,7 @@
 package github.dwstanley.atc.service;
 
 import github.dwstanley.atc.model.Aircraft;
+import github.dwstanley.atc.model.Arrival;
 import github.dwstanley.atc.model.Departure;
 
 import java.util.List;
@@ -8,24 +9,16 @@ import java.util.Optional;
 
 public interface AirportService {
 
-    void requestToLand(Aircraft aircraft);
+    Arrival requestToLand(String aircraftVin);
 
-    Departure requestToDepart(Aircraft aircraft);
+    Departure requestToDepart(String aircraftVin);
 
-    List<Aircraft> pendingArrivals();
+    List<Arrival> pendingArrivals();
 
     List<Departure> pendingDepartures();
 
-    Optional<Aircraft> nextArrival();
+    Optional<Aircraft> arrive(String aircraftVin);
 
-    Departure nextDeparture();
-
-//    List<Aircraft> listOnGroundAircraft();
-
-    int numOnGroundAircraft();
-
-    int numInAirAircraft();
-
-    Optional<Aircraft> completeArrival();
+    Optional<Aircraft> departNext();
 
 }
