@@ -1,5 +1,8 @@
 package github.dwstanley.atc.controller;
 
+import github.dwstanley.atc.exception.AircraftNotFoundException;
+import github.dwstanley.atc.exception.ArrivalNotFoundException;
+import github.dwstanley.atc.exception.DepartureNotFoundException;
 import github.dwstanley.atc.model.Aircraft;
 import github.dwstanley.atc.model.Arrival;
 import github.dwstanley.atc.model.Departure;
@@ -27,7 +30,7 @@ public class AtcController {
     Aircraft completeArrival(@RequestParam("aircraftVin") String aircraftVin) {
         return this.airportService
                 .arrive(aircraftVin)
-                .orElseThrow(() -> new RuntimeException("Could not complete requested arrival."));
+                .orElseThrow(() -> new ArrivalNotFoundException(aircraftVin));
     }
 
     @GetMapping(value = "/requestArrival")
@@ -44,7 +47,7 @@ public class AtcController {
     Aircraft departNext() {
         return this.airportService
                 .departNext()
-                .orElseThrow(() -> new RuntimeException("No pending departures to complete."));
+                .orElseThrow(DepartureNotFoundException::new);
     }
 
     @GetMapping(value = "/departures")

@@ -2,6 +2,7 @@ package github.dwstanley.atc.service;
 
 import github.dwstanley.atc.exception.AircraftNotFoundException;
 import github.dwstanley.atc.exception.ArrivalNotFoundException;
+import github.dwstanley.atc.exception.IllegalStateException;
 import github.dwstanley.atc.model.AcStatus;
 import github.dwstanley.atc.model.Aircraft;
 import github.dwstanley.atc.model.Arrival;
@@ -80,11 +81,12 @@ public class InMemoryDeparturesAirportService implements AirportService {
 
         Aircraft aircraft = getAircraftOrThrowException(aircraftVin);
         verifyStateOrThrowException(aircraft.getStatus(), ARRIVING);
+
         Arrival arrival = getArrivalOrThrowException(aircraftVin);
+        arrivalRepository.delete(arrival);
 
         aircraft.setStatus(LANDED);
         aircraftRepository.save(aircraft);
-        arrivalRepository.delete(arrival);
 
         return Optional.ofNullable(aircraft);
     }
@@ -120,9 +122,7 @@ public class InMemoryDeparturesAirportService implements AirportService {
             actual = UNKNOWN;
         }
         if (!Arrays.asList(allowed).contains(actual)) {
-            throw new IllegalArgumentException(
-                    "Cannot complete transaction, plane was expected to be in one of the following states "
-                            + allowed + " but was: " + actual);
+            throw new IllegalStateException(allowed, actual);
         }
     }
 
