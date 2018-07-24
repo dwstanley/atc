@@ -12,7 +12,8 @@ Please note that while the UI is functional, user feedback is lacking so illegal
 
 Also note that when adding planes for arrival and departure their current state is considered. The system will ignore your request if you attempt to land a grounded plane, or similarly depart one that is already schedule for arrival. The demo is preloaded with an aircraft of each type that has a **null** status which can be added to either the arrival or departure queue.
 
-### Build
+### Build 
+[![Build Status](https://api.travis-ci.com/dwstanley/atc.svg?branch=develop)](https://travis-ci.com/dwstanley/atc)
 
 ATC uses a standard Maven build file and can be compiled using the following command:
 
@@ -22,9 +23,10 @@ $ mvn clean package
 
 Builds are automatically run at check in by travis-ci. The most recent build results can be found at <https://travis-ci.com/dwstanley/atc> 
 
-[![Build Status](https://api.travis-ci.com/dwstanley/atc.svg?branch=develop)](https://travis-ci.com/dwstanley/atc)
+
 
 ### Test
+[![Coverage Status](https://coveralls.io/repos/github/dwstanley/atc/badge.svg?branch=develop)](https://coveralls.io/github/dwstanley/atc?branch=develop) 
 
 Tests are written using SpringBootTest and JUnit 4. The consist of both Unit and Integration tests and focus on the queue data structure and rest interface. The can be run from the command line via:
 
@@ -34,7 +36,7 @@ $ mvn clean test
 
 or a code coverage report from the last build can be viewed at <https://coveralls.io/github/dwstanley/atc>
 
-[![Coverage Status](https://coveralls.io/repos/github/dwstanley/atc/badge.svg?branch=develop)](https://coveralls.io/github/dwstanley/atc?branch=develop) 
+
 
 ### Run
 
