@@ -2,7 +2,6 @@ package github.dwstanley.atc;
 
 import github.dwstanley.atc.model.Aircraft;
 import github.dwstanley.atc.repository.AircraftRepository;
-import github.dwstanley.atc.repository.ArrivalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,12 +14,10 @@ import static github.dwstanley.atc.model.AcType.*;
 public class DatabaseLoader implements CommandLineRunner {
 
     private final AircraftRepository aircraftRepository;
-    private final ArrivalRepository arrivalRepository;
 
     @Autowired
-    public DatabaseLoader(AircraftRepository aircraftRepository, ArrivalRepository arrivalRepository) {
+    public DatabaseLoader(AircraftRepository aircraftRepository) {
         this.aircraftRepository = aircraftRepository;
-        this.arrivalRepository = arrivalRepository;
     }
 
     @Override
@@ -38,9 +35,6 @@ public class DatabaseLoader implements CommandLineRunner {
 
         aircraftRepository.save(new Aircraft("041", "Cargo Small", CARGO, SMALL));
         aircraftRepository.save(new Aircraft("042", "Cargo Large", CARGO, LARGE));
-
-//        Aircraft aircraft = aircraftRepository.save(new Aircraft("0003", "Aircraft 3", EMERGENCY, SMALL));
-//        arrivalRepository.save(new Arrival(aircraft));
 
     }
 }

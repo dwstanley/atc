@@ -1,6 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const client = require('./client');
+const stompClient = require('./websocket-listener');
 
 const follow = require('./follow'); // function to hop multiple links by "rel"
 
@@ -15,6 +16,8 @@ class AircraftTable extends React.Component {
         this.onDelete = this.onDelete.bind(this);
         this.onDepart = this.onDepart.bind(this);
         this.onNavigate = this.onNavigate.bind(this);
+        this.refreshCurrentPage = this.refreshCurrentPage.bind(this);
+        this.refreshAndGoToLastPage = this.refreshAndGoToLastPage.bind(this);
     }
 
     loadFromServer(pageSize) {
@@ -47,28 +50,15 @@ class AircraftTable extends React.Component {
                 entity: newAircraft,
                 headers: {'Content-Type': 'application/json'}
             })
-        }).then(response => {
-            return follow(client, root, [
-                {rel: 'aircrafts', params: {'size': this.state.pageSize}}]);
-        }).done(response => {
-            if (typeof response.entity._links.last != "undefined") {
-                this.onNavigate(response.entity._links.last.href);
-            } else {
-                this.onNavigate(response.entity._links.self.href);
-            }
         });
     }
 
     onDelete(aircraft) {
-        client({method: 'DELETE', path: aircraft._links.self.href}).done(response => {
-            this.loadFromServer(this.state.pageSize);
-        });
+        client({method: 'DELETE', path: aircraft._links.self.href});
     }
 
     onDepart(aircraft) {
-        client({method: 'GET', path: '/atc/requestDeparture/?aircraftVin=' + aircraft.vin}).done(response => {
-            this.loadFromServer(this.state.pageSize);
-        });
+        client({method: 'GET', path: '/atc/requestDeparture/?aircraftVin=' + aircraft.vin});
     }
 
     onNavigate(navUri) {
@@ -82,8 +72,50 @@ class AircraftTable extends React.Component {
         });
     }
 
+    refreshAndGoToLastPage(message) {
+        console.log('refreshAndGoToLastPage called');
+        follow(client, root, [{
+            rel: 'aircrafts',
+            params: {size: this.state.pageSize}
+        }]).done(response => {
+            if (response.entity._links.last !== undefined) {
+                this.onNavigate(response.entity._links.last.href);
+            } else {
+                this.onNavigate(response.entity._links.self.href);
+            }
+        })
+    }
+
+    refreshCurrentPage(message) {
+        var pageSize = this.state.pageSize;
+        follow(client, root, [
+            {rel: 'aircrafts', params: {size: pageSize}}]
+        ).then(aircraftCollection => {
+            return client({
+                method: 'GET',
+                path: aircraftCollection.entity._links.profile.href,
+                headers: {'Accept': 'application/schema+json'}
+            }).then(schema => {
+                this.schema = schema.entity;
+                return aircraftCollection;
+            });
+        }).done(aircraftCollection => {
+            this.setState({
+                aircrafts: aircraftCollection.entity._embedded.aircrafts,
+                attributes: Object.keys(this.schema.properties),
+                pageSize: pageSize,
+                links: aircraftCollection.entity._links
+            });
+        });
+    }
+
     componentDidMount() {
         this.loadFromServer(this.state.pageSize);
+        stompClient.register([
+            {route: '/topic/newAircraft', callback: this.refreshAndGoToLastPage},
+            {route: '/topic/updateAircraft', callback: this.refreshCurrentPage},
+            {route: '/topic/deleteAircraft', callback: this.refreshCurrentPage}
+        ]);
     }
 
     render() {

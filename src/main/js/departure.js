@@ -27,14 +27,12 @@ class DepartureTable extends React.Component {
     onCreate(aircraftVin) {
         client({method: 'GET', path: '/atc/requestDeparture/?aircraftVin=' + aircraftVin}).done(response => {
             this.loadFromServer(this.state.pageSize);
-            location.reload(); // for DEMO ONLY
         });
     }
 
     onCompleteNext() {
         client({method: 'GET', path: '/atc/departNext'}).done(response => {
             this.loadFromServer(this.state.pageSize);
-            location.reload();// for DEMO ONLY
         });
     }
 

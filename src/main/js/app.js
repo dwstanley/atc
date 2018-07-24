@@ -1,9 +1,9 @@
 import DepartureTable from "./departure";
+import AircraftTable from './aircraft'
+import ArrivalTable from './arrival'
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-import AircraftTable from './aircraft'
-import ArrivalTable from './arrival'
 
 class App extends React.Component {
 

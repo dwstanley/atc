@@ -93,11 +93,15 @@ public class InMemoryDeparturesAirportService implements AirportService {
 
     @Override
     public Optional<Aircraft> departNext() {
-        Optional<Aircraft> aircraftOptional = departures.poll().map(Departure::getAircraft);
+        Optional<Departure> departureOptional = departures.poll();
+        departureOptional.ifPresent(departureRepository::delete);
+
+        Optional<Aircraft> aircraftOptional = departureOptional.map(Departure::getAircraft);
         aircraftOptional.ifPresent(aircraft -> {
             aircraft.setStatus(AcStatus.UNKNOWN);
             aircraftRepository.save(aircraft);
         });
+
         return aircraftOptional;
     }
 

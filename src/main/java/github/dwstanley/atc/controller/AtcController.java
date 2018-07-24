@@ -1,5 +1,6 @@
 package github.dwstanley.atc.controller;
 
+import github.dwstanley.atc.EventHandler;
 import github.dwstanley.atc.exception.ArrivalNotFoundException;
 import github.dwstanley.atc.exception.DepartureNotFoundException;
 import github.dwstanley.atc.model.Aircraft;
@@ -19,34 +20,44 @@ import java.util.List;
 public class AtcController {
 
     private final AirportService airportService;
+    private final EventHandler eventHandler;
 
     @Autowired
-    AtcController(AirportService airportService) {
+    AtcController(AirportService airportService, EventHandler eventHandler) {
         this.airportService = airportService;
+        this.eventHandler = eventHandler;
     }
 
     @GetMapping(value = "/completeArrival")
     Aircraft completeArrival(@RequestParam("aircraftVin") String aircraftVin) {
-        return this.airportService
+        Aircraft aircraft = this.airportService
                 .arrive(aircraftVin)
                 .orElseThrow(() -> new ArrivalNotFoundException(aircraftVin));
+        eventHandler.updateAircraft(aircraft);
+        return aircraft;
     }
 
     @GetMapping(value = "/requestArrival")
     Arrival requestArrival(@RequestParam("aircraftVin") String aircraftVin) {
-        return this.airportService.requestToLand(aircraftVin);
+        Arrival arrival = this.airportService.requestToLand(aircraftVin);
+        eventHandler.updateAircraft(arrival.getAircraft());
+        return arrival;
     }
 
     @GetMapping(value = "/requestDeparture")
     Departure requestDeparture(@RequestParam("aircraftVin") String aircraftVin) {
-        return this.airportService.requestToDepart(aircraftVin);
+        Departure departure = this.airportService.requestToDepart(aircraftVin);
+        eventHandler.updateAircraft(departure.getAircraft());
+        return departure;
     }
 
     @GetMapping(value = "/departNext")
     Aircraft departNext() {
-        return this.airportService
+        Aircraft aircraft = this.airportService
                 .departNext()
                 .orElseThrow(DepartureNotFoundException::new);
+        eventHandler.updateAircraft(aircraft);
+        return aircraft;
     }
 
     @GetMapping(value = "/departures")

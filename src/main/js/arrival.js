@@ -41,14 +41,12 @@ class ArrivalTable extends React.Component {
     onCreate(aircraftVin) {
         client({method: 'GET', path: '/atc/requestArrival/?aircraftVin=' + aircraftVin}).done(response => {
             this.loadFromServer(this.state.pageSize);
-            location.reload(); // for DEMO ONLY
         });
     }
 
     onComplete(arrival) {
         client({method: 'GET', path: '/atc/completeArrival/?aircraftVin=' + arrival.aircraft.vin}).done(response => {
             this.loadFromServer(this.state.pageSize);
-            location.reload(); // for DEMO ONLY
         });
     }
 
